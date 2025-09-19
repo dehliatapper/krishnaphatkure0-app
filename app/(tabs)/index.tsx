@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Image } from 'expo-image';
+import NetInfo from '@react-native-community/netinfo';
+import { OfflineScreen } from '@/components/offline-screen';
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeAnim] = useState(new Animated.Value(1));
+  const [isConnected, setIsConnected] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(state.isConnected ?? false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleLoadEnd = () => {
     Animated.timing(fadeAnim, {
@@ -17,6 +28,10 @@ export default function HomeScreen() {
       setIsLoading(false);
     });
   };
+
+  if (!isConnected) {
+    return <OfflineScreen />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
