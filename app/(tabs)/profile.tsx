@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Image } from 'expo-image';
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [fadeAnim] = useState(new Animated.Value(1));
 
@@ -21,7 +21,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <WebView
-        source={{ uri: 'https://fromfarmerstoyourplate.com/' }}
+        source={{ uri: 'https://fromfarmerstoyourplate.com/profile' }}
         style={styles.webview}
         startInLoadingState={false}
         scalesPageToFit={true}
